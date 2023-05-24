@@ -40,9 +40,45 @@ class CalcController
         this._operation.pop();
     }
 
+    getLastOperation()
+    {
+        return this._operation[this._operation.length-1];
+    }
+
+    setLastOperation(value)
+    {
+        this._operation[this._operation.length-1] = value;
+    }
+
+    isOperator(value)
+    {
+        return (['+', '-', '*', '%', '/'].indexOf(value) > -1 )
+    }
+
     addOperation(value)
     {
-        this._operation.push(value);
+        console.log('A', isNaN(this.getLastOperation()));
+
+        if (isNaN(this.getLastOperation())) {
+
+            if (this.isOperator(value)) {
+
+                this.setLastOperation(value);
+
+            } else if (isNaN(value)) {
+
+                // Outra coisa
+                console.log(value);
+
+            } else {
+
+                this._operation.push(value);
+            }
+        } else {
+
+            let newValue = this.getLastOperation().toString() + value.toString();
+            this.setLastOperation(parseInt(newValue));
+        }
 
         console.log(this._operation);
     }
@@ -56,36 +92,40 @@ class CalcController
     {
         switch (value) {
             case 'ac':
-                this.clearAll();
-                break;
-
+                    this.clearAll();
+                    break;
+            
                 case 'ce':
-                this.clearEntry();
-                break;
+                    this.clearEntry();
+                    break;
 
                 case 'soma':
-                
-                break;
+                    this.addOperation('+');
+                    break;
 
                 case 'subtracao':
-                
-                break;
+                    this.addOperation('-');
+                    break;
 
                 case 'divisao':
-                
-                break;
+                    this.addOperation('/');
+                    break;
 
                 case 'multiplicacao':
-                
-                break;
+                    this.addOperation('*');
+                    break;
 
                 case 'porcento':
-                
-                break;
+                    this.addOperation('%');
+                    break;
 
                 case 'igual':
-                
-                break;
+                    
+                    break;
+
+                case 'ponto':
+                    this.addOperation('.');
+                    break;
 
                 case '0':
                 case '1':
@@ -98,7 +138,7 @@ class CalcController
                 case '8':
                 case '9':
                     this.addOperation(parseInt(value));
-                break;
+                    break;
         
             default:
                 this.setError();
@@ -173,6 +213,6 @@ class CalcController
 
     set currentDate(value)
     {
-        this.currentDate = value;
+        this._currentDate = value;
     }
 }
