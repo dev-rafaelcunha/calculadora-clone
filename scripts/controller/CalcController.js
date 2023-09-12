@@ -184,7 +184,6 @@ class CalcController
                 this.setError();
             }, 1);
         }
-        
     }
 
     calc()
